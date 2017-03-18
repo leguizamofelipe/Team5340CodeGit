@@ -137,11 +137,12 @@ public class CommonFunctions extends RunCamera {
     byte[] frontDistanceSensorCache;
     byte[] rearDistanceSensorCache;
 
-    int frontDistanceSensorRegStart = 0x04;
-    int frontDistanceSensorReadLength = 2;
+    boolean isSquare = false;
+    //int frontDistanceSensorRegStart = 0x04;
+    //int frontDistanceSensorReadLength = 2;
 
-    int rearDistanceSensorRegStart = 0x04;
-    int rearDistanceSensorReadLength = 2;
+  //  int rearDistanceSensorRegStart = 0x04;
+//    int rearDistanceSensorReadLength = 2;
 
     /////////////////////////////////////////TELEOP VARIABLES/////////////////////////////////////
 
@@ -418,42 +419,53 @@ public class CommonFunctions extends RunCamera {
     //--------------------------------------------------------------------------
     //Use the range to keep straight
     //--------------------------------------------------------------------------
-    public void KeepStraightUsingRangeSensors(){
-        frontDistanceSensorCache = frontDistanceSensorReader.read(0x04, 2);
 
-        sleep(100);
-        rearDistanceSensorCache = rearDistanceSensorReader.read(0x04, 2);
+    public void RangeSensorsUpCloseToKeepStraight(){
+        int rearValue = rearDistanceSensorReader.read(0x04, 2)[0] & 0xFF;
+        sleep(500);
+        int frontValue = frontDistanceSensorReader.read(0x04,2)[0] & 0xFF;
 
-//        telemetry.addData("f name ", frontDistanceSensor.getDeviceName());
-//        telemetry.addData("r nane",  rearDistanceSensor.getDeviceName());
-            if (frontDistanceSensorCache[0] > rearDistanceSensorCache[0]) {
-                telemetry.addData("DATA OF FRONT SENSOR: ", frontDistanceSensorCache[0] & 0xFF);
-                telemetry.addData("DATA OF REAR SENSOR: ", rearDistanceSensorCache[0] & 0xFF);
-                telemetry.addData("DATA OF ODS FRONT SENSOR: ", frontDistanceSensorCache[1] & 0xFF);
-                telemetry.addData("DATA OF ODS REAR SENSOR: ", rearDistanceSensorCache[1] & 0xFF);
+        if(rearValue != 255 && frontValue != 255){
+            if(rearValue < frontValue){
+                Left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                Right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                Right.setPower(-0.15);
+                Left.setPower(0.15);
+
+                telemetry.addData("DATA OF FRONT SENSOR: ", frontValue);
+                telemetry.addData("DATA OF REAR SENSOR: ", rearValue);
                 telemetry.addLine("TURN LEFT");
-                telemetry.update();
-            } else if (frontDistanceSensorCache[0] < rearDistanceSensorCache[0]) {
-                telemetry.addData("DATA OF FRONT SENSOR: ", frontDistanceSensorCache[0] & 0xFF);
-                telemetry.addData("DATA OF REAR SENSOR: ", rearDistanceSensorCache[0] & 0xFF);
-                telemetry.addData("DATA OF ODS FRONT SENSOR: ", frontDistanceSensorCache[1] & 0xFF);
-                telemetry.addData("DATA OF ODS REAR SENSOR: ", rearDistanceSensorCache[1] & 0xFF);
-                telemetry.addLine("TURN RIGHT");
-                telemetry.update();
-            } else {
-                telemetry.addData("DATA OF FRONT SENSOR: ", frontDistanceSensorCache[0] & 0xFF);
-                telemetry.addData("DATA OF REAR SENSOR: ", rearDistanceSensorCache[0] & 0xFF);
-                telemetry.addData("DATA OF ODS FRONT SENSOR: ", frontDistanceSensorCache[1] & 0xFF);
-                telemetry.addData("DATA OF ODS REAR SENSOR: ", rearDistanceSensorCache[1] & 0xFF);
-                telemetry.addLine("YOU ARE EQUAL");
-                telemetry.update();
+            }else if(rearValue > frontValue){
+                Left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                Right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                Right.setPower(0.15);
+                Left.setPower(-0.15);
+
+                telemetry.addData("DATA OF FRONT SENSOR: ", frontValue);
+                telemetry.addData("DATA OF REAR SENSOR: ", rearValue);
+                telemetry.addLine("TURN LEFT");
+            }else{
+                isSquare = true;
+
+                telemetry.addData("DATA OF FRONT SENSOR: ", frontValue);
+                telemetry.addData("DATA OF REAR SENSOR: ", rearValue);
+                telemetry.addLine("TURN Equal");
             }
-            frontDistanceSensorCache = frontDistanceSensorReader.read(frontDistanceSensorRegStart,frontDistanceSensorReadLength);
 
-            sleep(100);
-            rearDistanceSensorCache = rearDistanceSensorReader.read(rearDistanceSensorRegStart,rearDistanceSensorReadLength);
+            sleep(200);
+            Right.setPower(0);
+            Left.setPower(0);
+            telemetry.update();
+
+        }else{
+            Left.setPower(-.2);
+            Right.setPower(-.2);
+            sleep(200);
+            Left.setPower(0);
+            Right.setPower(0);
+            isSquare = false;
+        }
     }
-
 
     //TODO Interaction with Line and Beacon
 
@@ -678,9 +690,8 @@ public class CommonFunctions extends RunCamera {
     //--------------------------------------------------------------------------
     //We assume the robot is relatively squared up on line, and that the line is captured between the ODS sensors
     public void TrackLineInwards() {
-//        int currentDistance = frontDistanceSensor.getCallbackCount();
+       int currentDistance = rearDistanceSensorReader.read(0x04, 2)[0] & 0xFF; ;
 
-        int currentDistance = 5;
         while (currentDistance > StopDistanceFromWall && opModeIsActive()) {
             if (!InnerRightDetectsLight() && !InnerLeftDetectsLight() && opModeIsActive()) { // Both detect dark values, drive forward
                 telemetry.addLine("Both are dark");
@@ -706,7 +717,7 @@ public class CommonFunctions extends RunCamera {
 
             Right.setPower(0);
             Left.setPower(0);
-//            currentDistance = frontDistanceSensor.getCallbackCount();
+            currentDistance = rearDistanceSensorReader.read(0x04, 2)[0] & 0xFF;
         }
     }//end TrackLine Inwards Function
 
