@@ -15,11 +15,8 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
-/**
- * Created by robotadmin on 2/16/2017.
- */
+
 @Autonomous(name = "RangeValues with gyro  ", group = "Concept")
-@Disabled
 
 public class TestRangeSensor extends LinearOpMode {
     ModernRoboticsI2cRangeSensor rangeSensor;

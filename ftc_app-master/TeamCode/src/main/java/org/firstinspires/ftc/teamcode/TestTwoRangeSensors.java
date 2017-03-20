@@ -12,9 +12,9 @@ public class TestTwoRangeSensors extends CommonFunctions {
         AutonomyMotorAndSensorSetup();
 
         waitForStart();
-        while(!isSquare){
-            RangeSensorsUpCloseToKeepStraight();
-        }
 
+        while(!isSquare && opModeIsActive()){
+            SquareUpWithWallUsingDistance();
+        }
     }
 }

@@ -114,12 +114,12 @@ public class CommonFunctions extends RunCamera {
     GyroSensor Gyro;
     ModernRoboticsI2cGyro gyro;
 
-//    I2cDevice frontDistanceSensor;
-//    I2cDevice rearDistanceSensor;
+    I2cDevice frontDistanceSensor;
+    I2cDevice rearDistanceSensor;
 
     I2cDeviceSynch frontDistanceSensorReader;
-   // I2cAddr frontDistanceSensorAdress = new I2cAddr(0x26);
-   // I2cAddr rearDistanceSensorAdress = new I2cAddr(0x28);
+    I2cAddr frontDistanceSensorAdress = new I2cAddr(0x26);
+    I2cAddr rearDistanceSensorAdress = new I2cAddr(0x28);
     I2cDeviceSynch rearDistanceSensorReader;
 
     Servo Pusher;
@@ -189,7 +189,7 @@ public class CommonFunctions extends RunCamera {
         telemetry.update();
 
 
-        /*
+
         frontDistanceSensor = hardwareMap.i2cDevice.get("frontDistanceSensor");
         rearDistanceSensor = hardwareMap.i2cDevice.get("rearDistanceSensor");
 
@@ -199,7 +199,7 @@ public class CommonFunctions extends RunCamera {
         frontDistanceSensorReader.engage();
         rearDistanceSensorReader.engage();
 
-        */
+
        // rearDistanceSensor.
 
 
@@ -420,17 +420,17 @@ public class CommonFunctions extends RunCamera {
     //Use the range to keep straight
     //--------------------------------------------------------------------------
 
-    public void RangeSensorsUpCloseToKeepStraight(){
+    public void SquareUpWithWallUsingDistance(){
         int rearValue = rearDistanceSensorReader.read(0x04, 2)[0] & 0xFF;
-        sleep(500);
+        sleep(250);
         int frontValue = frontDistanceSensorReader.read(0x04,2)[0] & 0xFF;
 
         if(rearValue != 255 && frontValue != 255){
             if(rearValue < frontValue){
                 Left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 Right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                Right.setPower(-0.15);
-                Left.setPower(0.15);
+                Right.setPower(0.15);
+                Left.setPower(-0.15);
 
                 telemetry.addData("DATA OF FRONT SENSOR: ", frontValue);
                 telemetry.addData("DATA OF REAR SENSOR: ", rearValue);
@@ -438,8 +438,8 @@ public class CommonFunctions extends RunCamera {
             }else if(rearValue > frontValue){
                 Left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
                 Right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-                Right.setPower(0.15);
-                Left.setPower(-0.15);
+                Right.setPower(-0.15);
+                Left.setPower(0.15);
 
                 telemetry.addData("DATA OF FRONT SENSOR: ", frontValue);
                 telemetry.addData("DATA OF REAR SENSOR: ", rearValue);
@@ -452,7 +452,7 @@ public class CommonFunctions extends RunCamera {
                 telemetry.addLine("TURN Equal");
             }
 
-            sleep(200);
+            sleep(100);
             Right.setPower(0);
             Left.setPower(0);
             telemetry.update();
@@ -460,7 +460,7 @@ public class CommonFunctions extends RunCamera {
         }else{
             Left.setPower(-.2);
             Right.setPower(-.2);
-            sleep(200);
+            sleep(100);
             Left.setPower(0);
             Right.setPower(0);
             isSquare = false;
@@ -516,6 +516,7 @@ public class CommonFunctions extends RunCamera {
             return true;
         } else {
             return false;
+
         }
     }
 
@@ -695,20 +696,20 @@ public class CommonFunctions extends RunCamera {
         while (currentDistance > StopDistanceFromWall && opModeIsActive()) {
             if (!InnerRightDetectsLight() && !InnerLeftDetectsLight() && opModeIsActive()) { // Both detect dark values, drive forward
                 telemetry.addLine("Both are dark");
-                Right.setPower(ForwardDrivingSpeed);
-                Left.setPower(ForwardDrivingSpeed);
+                Right.setPower(-ForwardDrivingSpeed);
+                Left.setPower(-ForwardDrivingSpeed);
             } else if (InnerRightDetectsLight() && !InnerLeftDetectsLight() && opModeIsActive()) { //Right is light, left is dark, turn left
                 telemetry.addLine("Turn Right");
-                Right.setPower(TurningTrackSpeed);
-                Left.setPower(-TurningTrackSpeed);
-            } else if (!InnerRightDetectsLight() && InnerLeftDetectsLight() && opModeIsActive()) { //Right is light and left is dark
-                telemetry.addLine("Turn Left");
                 Right.setPower(-TurningTrackSpeed);
                 Left.setPower(TurningTrackSpeed);
+            } else if (!InnerRightDetectsLight() && InnerLeftDetectsLight() && opModeIsActive()) { //Right is light and left is dark
+                telemetry.addLine("Turn Left");
+                Right.setPower(TurningTrackSpeed);
+                Left.setPower(-TurningTrackSpeed);
             } else if (InnerLeftDetectsLight() && InnerRightDetectsLight() && opModeIsActive()) { //Both are light
                 telemetry.addLine("Both Light");
-                Right.setPower(ForwardDrivingSpeed);
-                Left.setPower(ForwardDrivingSpeed);
+                Right.setPower(-ForwardDrivingSpeed);
+                Left.setPower(-ForwardDrivingSpeed);
             } else {
                 telemetry.addLine("Nothing!");
             }

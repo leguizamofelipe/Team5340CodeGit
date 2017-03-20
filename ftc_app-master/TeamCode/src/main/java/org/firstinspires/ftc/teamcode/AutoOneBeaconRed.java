@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name="One Beacon Red", group="Pushbot")
 public class AutoOneBeaconRed extends CommonFunctions{
-    final String ColorDeterminantRed = "RED";
+    final String AllianceColor = "RED";
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -16,26 +16,50 @@ public class AutoOneBeaconRed extends CommonFunctions{
 
         }
 
-//        DriveBackwardWithEncoder(15, 0.2); //Keep in mind that "backwards" means a drive where the spinner is in front. This will change as we turn around and push beacons.
-//
-//        shootBalls(); //Shoot balls into center goal. Might want to review shooting speed and sleep time with launcher improvements
-//        sleep(4000);
-//        stopShootingBalls();
-//
-//
-//        turnRight(110); //Again, forwards is in the direction of the button pusher, so we turn right. Adjust angle as needed.
-//
-//        DriveForwardWithEncoder(20, 0.5); //Forwards is correct again. Get close up to the line
+//        AlignWithLine(AllianceColor, 0.17); //use 0.17 power
 
+//        TrackLineInwards();
+
+//        RedOrBlue();
+
+//        PushButton(AllianceColor);
+
+//        shootBalls();
+//
+//        sleep(3000);
+//
+//        stopShootingBalls();
+
+        SquareUpWithWallUsingDistance();
+
+
+
+        gyro.resetZAxisIntegrator();
+
+        DriveBackwardWithEncoder(15, 0.3);
+
+        turnRight(70);
+
+        DriveForwardWithEncoder(45, 0.3);
+
+        AlignWithLine(AllianceColor, 0.17);
+
+        TrackLineInwards();
+
+        RedOrBlue();
+
+        PushButton(AllianceColor);
+
+        /*
         DriveForwardWithEncoder(10, 0.4);
 
         turnLeft(30);
 
         DriveForwardWithEncoder(35, 0.4);
 
-        InterceptLine(ColorDeterminantRed); //Use the ODS to intercept the line.
+        InterceptLine(AllianceColor); //Use the ODS to intercept the line.
 
-        SnapBackToLine(ColorDeterminantRed); //Intercept the line in between both ODS Sensors
+        SnapBackToLine(AllianceColor); //Intercept the line in between both ODS Sensors
         firstLineDone = true;
 //
 //        ///////////////////////////////////////////////////////STOPPING POINT - Here we decide where to go -- should we use the gyro to drive straight or use the ODS to track? All of this depends on the angle that we have after the snap back.
@@ -45,7 +69,7 @@ public class AutoOneBeaconRed extends CommonFunctions{
 //
         RedOrBlue(); //Use the camera to detect color and assign it to our color string
 //
-        PushButton(ColorDeterminantRed);
+        PushButton(AllianceColor);
 
         shootBalls();
 
@@ -60,7 +84,6 @@ public class AutoOneBeaconRed extends CommonFunctions{
         DriveBackwardWithEncoder(DriveBackDistance, 0.5); //Need to find a solid drive back distance
 
         StopAndWait(500);
-
 
       //  DriveBackwardWithEncoder(10,0.5);
 
