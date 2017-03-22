@@ -156,7 +156,7 @@ public class CommonFunctions extends RunCamera {
     double DriveSlowingFactor = 0.25; // if motor slowing is activated
 
     final double FlapperPower = 1; // sets the spee of the flapper
-    double LauncherPower = .22;//Was .22
+    double LauncherPower = 0.3;//Was .22 with blue wheels
 
     boolean FlapperTriggered = false;
 
