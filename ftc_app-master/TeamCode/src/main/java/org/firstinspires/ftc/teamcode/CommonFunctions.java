@@ -72,8 +72,8 @@ public class CommonFunctions extends RunCamera {
 
     final int DriveBackDistance = 15; //was 5 // after hitting first beacon how far we should back up
 
-    final int ButtonPushDriveDistance = 12; //was 8 // drives forward set amount of distance to ensure we have enough time on pushing beacons
-    final int StopDistanceFromWall = 10; // when tracking the line how far should we be before getting color values of beacon
+    final int ButtonPushDriveDistance = 17; //was 15 // drives forward set amount of distance to ensure we have enough time on pushing beacons
+    final int StopDistanceFromWall = 15; // was 10 // when tracking the line how far should we be before getting color values of beacon
 
     final double FAST_POWER = 0.4; // Fast power for robot to go (uses distance sensor) if above slow down distance
     final double SLOW_POWER = 0.2; // Slow power for robot to go (uses distance sensor) if below slow donwn distance
@@ -83,7 +83,7 @@ public class CommonFunctions extends RunCamera {
 
     boolean firstLineDone = false;// Are we done with the first beacon or not
 
-    final double LauncherPowerForAuto = 0.22; // sets the power for the shooting mechanism in autonoumous
+    final double LauncherPowerForAuto = 0.27; // sets the power for the shooting mechanism in autonoumous
 
     final int DegreesOffTolerance = 4; //Tolerance for gyro to be within to be considered straight.
 
@@ -707,7 +707,7 @@ public class CommonFunctions extends RunCamera {
             Left.setPower(0);
             currentDistance = rearDistanceSensorReader.read(0x04, 2)[0] & 0xFF;
 
-            Logger.printMessage("TrackLineInwards", String.valueOf(currentDistance));
+            Logger.printMessage("TrackLineInwards: Distance Reading", String.valueOf(currentDistance));
         }
 
     }//end TrackLine Inwards Function

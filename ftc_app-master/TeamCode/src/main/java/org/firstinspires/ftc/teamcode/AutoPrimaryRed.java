@@ -39,7 +39,7 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         turnLeft(45); // was 40
 
-        DriveForwardWithEncoder(45, 0.4);
+        DriveForwardWithEncoder(55, 0.4);
 
         AlignWithLine(AllianceColor, 0.17);
 
@@ -77,7 +77,7 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         turnRight(75); //was 70
 
-        DriveForwardWithEncoder(45, 0.4); //Drive towards it and get close
+        DriveForwardWithEncoder(53, 0.55); //Drive towards it and get close
        // sleep(5000);
 
         AlignWithLine(AllianceColor,.17);
