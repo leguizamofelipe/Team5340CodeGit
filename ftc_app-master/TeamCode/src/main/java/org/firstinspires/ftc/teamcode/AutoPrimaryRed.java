@@ -72,7 +72,7 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         stopCamera();
 
-        RunBitmapPreview();
+//        RunBitmapPreview();
 
         telemetry.addLine(FirstRun);
         telemetry.addLine(SecondRun);

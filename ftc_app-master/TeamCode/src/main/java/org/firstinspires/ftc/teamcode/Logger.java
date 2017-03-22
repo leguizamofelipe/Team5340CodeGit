@@ -5,11 +5,14 @@ import android.graphics.Bitmap;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.io.PrintStream;
-import java.io.StringReader;
 import java.util.Calendar;
 import java.util.Date;
 import java.sql.Timestamp;
+
+import static java.lang.System.out;
 
 /**
  * Created by RobotAdmin on 3/10/2017.
@@ -17,26 +20,32 @@ import java.sql.Timestamp;
 
 public class Logger {
 
-    File TextFile;
+    File LoggerFile;
+    File CameraImageFile;
 
     FileOutputStream filestream;
 
     PrintStream printStream;
 
+    OutputStream CameraStream;
+
     Logger(boolean setEnabled, String filenameSuffix) throws FileNotFoundException {
         Enabled = setEnabled;
         //Create Log File Named based on datetimestamp
 
-        String filename = filenameSuffix + GetTimestamp();
+        String textFilename = filenameSuffix + GetTimestamp();
 
-        String pathname = "/sdcard/FIRST/log/" + filename + ".txt";
+        String textPathname = "/sdcard/FIRST/log/" + textFilename + ".txt";
+
+        String imagePathname = "/sdcard/FIRST/log/" + textFilename + ".jpg";
 
         if(Enabled){
-            TextFile = new File(pathname);
+            LoggerFile = new File(textPathname);
+            printStream = new PrintStream(LoggerFile);
+            filestream = new FileOutputStream(LoggerFile);
 
-            printStream = new PrintStream(TextFile);
-
-            filestream = new FileOutputStream(TextFile);
+            CameraImageFile = new File(imagePathname);
+            CameraStream = new FileOutputStream(CameraImageFile);
         }
     }
 
@@ -45,19 +54,17 @@ public class Logger {
     public void printMessage(String source, String message){
         if(Enabled)
         {
-
             printStream.println(message + "     " + source + "     " + GetTimestamp());
-
-            //print to file timestamp "-" + source + ":" + message
-
         }
     }
 
-    public void saveImage(Bitmap image){
+    public void saveImage(Bitmap image) throws IOException {
         if(Enabled){
-            //print to file timestamp + "-  SAVING IMAGE " + imageName
-            //also save the actual image to imageName
+            image.compress(Bitmap.CompressFormat.JPEG, 100, CameraStream);
         }
+
+        CameraStream.flush();
+        CameraStream.close();
     }
 
 

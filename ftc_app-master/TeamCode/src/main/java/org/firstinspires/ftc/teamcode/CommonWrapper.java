@@ -160,8 +160,8 @@ public class CommonWrapper extends LinearOpMode {
 //
 //    public void PrintFile(String Line1, String Line2, String Line3){
 //        try {
-//            File TextFile = new File("/sdcard/FIRST/Log.txt");
-//            FileOutputStream filestream = new FileOutputStream(TextFile);
+//            File LoggerFile = new File("/sdcard/FIRST/Log.txt");
+//            FileOutputStream filestream = new FileOutputStream(LoggerFile);
 //            PrintStream PrintStream = new PrintStream(filestream);
 //
 //            PrintStream.println(Line1);

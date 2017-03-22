@@ -812,8 +812,8 @@ public class CommonFunctions extends RunCamera {
         TurnOffFlapper();
     }//end kill motors
 
-    public void RunBitmapPreview(){
-        ((FtcRobotControllerActivity)this.hardwareMap.appContext).StartBitmapPreview(returnBitmap());
+    public void RunBitmapPreview(Bitmap Bitmap){
+        ((FtcRobotControllerActivity)this.hardwareMap.appContext).StartBitmapPreview(Bitmap);
     }
 
 
