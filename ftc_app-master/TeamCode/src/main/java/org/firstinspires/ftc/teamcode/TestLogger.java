@@ -28,6 +28,4 @@ public class TestLogger extends CommonFunctions {
 
 
     }
-
-
 }

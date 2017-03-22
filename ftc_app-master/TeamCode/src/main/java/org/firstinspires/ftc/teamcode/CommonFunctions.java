@@ -36,7 +36,7 @@ public class CommonFunctions extends RunCamera {
     
     //////////////////////////////////////CAMERA //////////////////////////////////////
 
-    Bitmap SavedBitmap = null; //Gets Bit map Values for logger
+//    Bitmap SavedBitmap = null; //Gets Bit map Values for logger
     String colorString; // uses this to hold the value of the string for color of beacon
 
     ////////////////////////////////////////SERVO VALUES////////////////////////////////////
@@ -813,6 +813,9 @@ public class CommonFunctions extends RunCamera {
     }//end kill motors
 
     public void RunBitmapPreview(){
-        ((FtcRobotControllerActivity)this.hardwareMap.appContext).StartBitmapPreview(SavedBitmap);
+        ((FtcRobotControllerActivity)this.hardwareMap.appContext).StartBitmapPreview(returnBitmap());
     }
+
+
+
 }

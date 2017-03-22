@@ -215,4 +215,8 @@ public class RunCamera extends LinearOpMode {
 
         return(colorString);
     }
+
+    public Bitmap returnBitmap(){
+        return SavedBitmap;
+    }
 }

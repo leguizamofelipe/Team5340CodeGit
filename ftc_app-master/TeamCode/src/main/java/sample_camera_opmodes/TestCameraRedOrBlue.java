@@ -1,5 +1,7 @@
 package sample_camera_opmodes;
 
+import android.graphics.Bitmap;
+
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
@@ -36,11 +38,6 @@ public class TestCameraRedOrBlue extends RunCamera {
         if (isCameraAvailable()) {
 
             setCameraDownsampling(8);
-            // parameter determines how downsampled you want your images
-            // 8, 4, 2, or 1.
-            // higher number is more downsampled, so less resolution but faster
-            // 1 is original resolution, which is detailed but slow
-            // must be called before super.init sets up the camera
 
             telemetry.addLine("Wait for camera to finish initializing!");
             telemetry.update();
@@ -51,17 +48,13 @@ public class TestCameraRedOrBlue extends RunCamera {
 
             waitForStart();
 
-            // LinearOpMode, so could do stuff like this too.
-            /*
-            motorLeft.setPower(1);  // drive forward
-            motorRight.setPower(1);
-            sleep(1000);            // for a second.
-            motorLeft.setPower(0);  // stop drive motors.
-            motorRight.setPower(0);
-            sleep(1000);            // wait a second.
-            */
+            boolean gotimage = false;
 
             while (opModeIsActive()) {
+                if(!gotimage){
+                    returnBitmap().compress(Bitmap.CompressFormat.JPEG, 100, );
+//
+                }
 
                 telemetry.addData("Color:", "Color detected is: " + RedOrBlue());
                 telemetry.update();

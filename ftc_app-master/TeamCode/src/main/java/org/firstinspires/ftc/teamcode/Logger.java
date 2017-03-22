@@ -27,7 +27,7 @@ public class Logger {
         Enabled = setEnabled;
         //Create Log File Named based on datetimestamp
 
-        String filename = GetTimestamp() + filenameSuffix;
+        String filename = filenameSuffix + GetTimestamp();
 
         String pathname = "/sdcard/FIRST/log/" + filename + ".txt";
 
@@ -46,7 +46,7 @@ public class Logger {
         if(Enabled)
         {
 
-            printStream.println(message + source + GetTimestamp());
+            printStream.println(message + "     " + source + "     " + GetTimestamp());
 
             //print to file timestamp "-" + source + ":" + message
 
