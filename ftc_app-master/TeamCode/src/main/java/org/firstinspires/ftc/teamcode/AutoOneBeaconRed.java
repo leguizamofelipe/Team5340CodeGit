@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import java.io.IOException;
+
 @Autonomous(name="One Beacon Red", group="Pushbot")
 public class AutoOneBeaconRed extends CommonFunctions{
     final String AllianceColor = "RED";
@@ -32,8 +34,6 @@ public class AutoOneBeaconRed extends CommonFunctions{
 
         SquareUpWithWallUsingDistance();
 
-
-
         gyro.resetZAxisIntegrator();
 
         DriveBackwardWithEncoder(15, 0.3);
@@ -48,7 +48,11 @@ public class AutoOneBeaconRed extends CommonFunctions{
 
         RedOrBlue();
 
-        PushButton(AllianceColor);
+        try {
+            PushButton(AllianceColor);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         /*
         DriveForwardWithEncoder(10, 0.4);

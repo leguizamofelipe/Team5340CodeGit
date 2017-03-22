@@ -2,6 +2,9 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 @Autonomous(name="Red", group="Pushbot")
 public class AutoPrimaryRed extends CommonFunctions{
 
@@ -10,8 +13,17 @@ public class AutoPrimaryRed extends CommonFunctions{
     String FirstRun;
     String SecondRun;
 
+    boolean RunLogger = true;
+
     @Override
     public void runOpMode() throws InterruptedException {
+        ///////////LOGGER SETUP/////////////////////////
+        try {
+            Logger = new Logger(RunLogger, "RedAuto");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ///////////END LOGGER SETUP/////////////////////////
 
         AutonomyMotorAndSensorSetup();
 
@@ -29,19 +41,25 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         DriveForwardWithEncoder(45, 0.4);
 
-        AlignWithLine(AllianceColor,0.17);
+        AlignWithLine(AllianceColor, 0.17);
 
         TrackLineInwards();
 
        // FirstRun = RedOrBlue(); //Use the camera to detect color and assign it to our color string
 
-        PushButton(AllianceColor);
+        try {
+            PushButton(AllianceColor);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         DriveBackwardWithEncoder(5, 0.3);
 
         StopAndWait(400);
 
-        SquareUpWithWallUsingDistance();
+        while(!isSquare) {
+            SquareUpWithWallUsingDistance();
+        }
 
         gyro.resetZAxisIntegrator();
 
@@ -66,20 +84,13 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         TrackLineInwards();
 
-        SecondRun = RedOrBlue();
-
-        PushButton(AllianceColor);
+        try {
+            PushButton(AllianceColor);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         stopCamera();
-
-//        RunBitmapPreview();
-
-        telemetry.addLine(FirstRun);
-        telemetry.addLine(SecondRun);
-        telemetry.update();
-
-        sleep(400000);
-        
     }
 
 }

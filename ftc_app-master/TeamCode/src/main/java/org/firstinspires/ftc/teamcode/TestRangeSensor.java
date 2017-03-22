@@ -17,7 +17,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 
 
 @Autonomous(name = "RangeValues with gyro  ", group = "Concept")
-
+@Disabled
 public class TestRangeSensor extends LinearOpMode {
     ModernRoboticsI2cRangeSensor rangeSensor;
     GyroSensor gyroScope;

@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import java.io.IOException;
+
 @Autonomous(name="AutoOneBeaconBlue", group="Pushbot")
 public class AutoOneBeaconBlue extends CommonFunctions{
     final String ColorDeterminantBlue = "BLUE";
@@ -43,7 +45,11 @@ public class AutoOneBeaconBlue extends CommonFunctions{
 
         RedOrBlue(); //Use the camera to detect color and assign it to our color string
 
-        PushButton(ColorDeterminantBlue);
+        try {
+            PushButton(ColorDeterminantBlue);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         shootBalls();
 

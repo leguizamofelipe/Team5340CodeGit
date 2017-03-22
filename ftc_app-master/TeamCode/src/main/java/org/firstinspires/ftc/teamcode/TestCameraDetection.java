@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import for_camera_opmodes.RunCamera;
 
 @TeleOp
+@Disabled
 public class TestCameraDetection extends RunCamera{
 
     @Override

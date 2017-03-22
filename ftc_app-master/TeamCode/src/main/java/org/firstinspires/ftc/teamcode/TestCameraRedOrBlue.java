@@ -48,14 +48,17 @@ public class TestCameraRedOrBlue extends RunCamera {
 
             colorString = RedOrBlue();
 
-            if(!gotimage){
-                try {
-                    CameraLogger.saveImage(returnBitmap());
-                } catch (IOException e) {
-                    e.printStackTrace();
+            while(opModeIsActive()){
+                if(!gotimage){
+                    try {
+                        CameraLogger.saveImage(returnBitmap());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    gotimage = true;
                 }
-                gotimage = true;
             }
+
 
         }
     }
