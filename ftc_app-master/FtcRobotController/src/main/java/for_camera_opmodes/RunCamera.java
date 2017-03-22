@@ -23,7 +23,9 @@ public class RunCamera extends LinearOpMode {
     private volatile boolean imageReady = false;
     private int loopCount = 0;
     private String data;
-    private int downsampling = 1;
+    private int downsampling = 8;
+    Bitmap SavedBitmap = null;
+
 
     //Prepares the image preview so we can use the image
     public PreviewCallback previewCallback = new PreviewCallback() {
@@ -185,7 +187,6 @@ public class RunCamera extends LinearOpMode {
     public String RedOrBlue(){
 
         String colorString = "ERROR";
-        Bitmap SavedBitmap = null;
 
         if (imageReady()) { // Only do this if an image has been returned from the camera
             int redValue = 0;
@@ -198,7 +199,7 @@ public class RunCamera extends LinearOpMode {
             SavedBitmap = rgbImage;
 
             for (int x = 0; x < rgbImage.getWidth(); x++) {
-                for (int y = 0; y < rgbImage.getHeight(); y++) { //why height / 2
+                for (int y = 0; y < rgbImage.getHeight() / 2; y++) { //why height / 2
                     int pixel = rgbImage.getPixel(x, y);
                     redValue += red(pixel);
                     blueValue += blue(pixel);

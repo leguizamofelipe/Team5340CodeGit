@@ -14,6 +14,7 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.hardware.OpticalDistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcontroller.internal.FtcRobotControllerActivity;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaTrackables;
@@ -67,7 +68,7 @@ public class CommonFunctions extends RunCamera {
 
     final double LiftPower = .75; // sets the speed of the lift to bring up balls
 
-    final int DriveBackDistance = 12; //was 5 // after hitting first beacon how far we should back up
+    final int DriveBackDistance = 15; //was 5 // after hitting first beacon how far we should back up
 
     final int ButtonPushDriveDistance = 12; //was 8 // drives forward set amount of distance to ensure we have enough time on pushing beacons
     final int StopDistanceFromWall = 16; // when tracking the line how far should we be before getting color values of beacon
@@ -352,6 +353,9 @@ public class CommonFunctions extends RunCamera {
     private void turn(int desiredAngle, int TurningDirection) throws InterruptedException { //Turning Direction = 1 when turning Right and turning Direction = -1 when turning Left
         gyro.resetZAxisIntegrator(); // resets to zero so the robots heading is relative to where we start are turn
 
+        Right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        Left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         int currentDegree = Math.abs(gyro.getIntegratedZValue());
         int initialDegree = Math.abs(gyro.getIntegratedZValue());
 
@@ -373,6 +377,8 @@ public class CommonFunctions extends RunCamera {
 
         Right.setPower(0);
         Left.setPower(0);
+
+
     }//end turn funciton
 
     //--------------------------------------------------------------------------
@@ -700,12 +706,12 @@ public class CommonFunctions extends RunCamera {
                 Left.setPower(-ForwardDrivingSpeed);
             } else if (InnerRightDetectsLight() && !InnerLeftDetectsLight() && opModeIsActive()) { //Right is light, left is dark, turn left
                 telemetry.addLine("Turn Right");
-                Right.setPower(-TurningTrackSpeed);
-                Left.setPower(TurningTrackSpeed);
-            } else if (!InnerRightDetectsLight() && InnerLeftDetectsLight() && opModeIsActive()) { //Right is light and left is dark
-                telemetry.addLine("Turn Left");
                 Right.setPower(TurningTrackSpeed);
                 Left.setPower(-TurningTrackSpeed);
+            } else if (!InnerRightDetectsLight() && InnerLeftDetectsLight() && opModeIsActive()) { //Right is light and left is dark
+                telemetry.addLine("Turn Left");
+                Right.setPower(-TurningTrackSpeed);
+                Left.setPower(TurningTrackSpeed);
             } else if (InnerLeftDetectsLight() && InnerRightDetectsLight() && opModeIsActive()) { //Both are light
                 telemetry.addLine("Both Light");
                 Right.setPower(-ForwardDrivingSpeed);
@@ -726,16 +732,17 @@ public class CommonFunctions extends RunCamera {
     //Use the camera to detect the color, then push the button
     //--------------------------------------------------------------------------
     public void PushButton(String AllianceColor) throws InterruptedException {
-        if(AllianceColor.equals(colorString)){
+
+        if(AllianceColor.equals(RedOrBlue())){
             Pusher.setPosition(PushRight);
         }else{
             Pusher.setPosition(PushLeft);
         }
-        sleep(500);
+        sleep(50);
         DriveForwardWithEncoder(ButtonPushDriveDistance, PushingDriveSpeed);
 
         Pusher.setPosition(NeutralPosition);
-        sleep(200);
+        sleep(100);
     }
     
     //TODO Shooting Mechanism
@@ -804,4 +811,8 @@ public class CommonFunctions extends RunCamera {
         TurnOffLaunchers();
         TurnOffFlapper();
     }//end kill motors
+
+    public void RunBitmapPreview(){
+        ((FtcRobotControllerActivity)this.hardwareMap.appContext).StartBitmapPreview(SavedBitmap);
+    }
 }

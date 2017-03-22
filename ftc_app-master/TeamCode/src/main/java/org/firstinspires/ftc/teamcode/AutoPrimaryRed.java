@@ -7,10 +7,15 @@ public class AutoPrimaryRed extends CommonFunctions{
 
     final String AllianceColor = "RED";
 
+    String FirstRun;
+    String SecondRun;
+
     @Override
     public void runOpMode() throws InterruptedException {
 
         AutonomyMotorAndSensorSetup();
+
+        startCamera();
 
         waitForStart();
 
@@ -20,7 +25,7 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         DriveForwardWithEncoder(20, 0.5); //Forwards is correct again. Get close up to the line
 
-        turnLeft(40);
+        turnLeft(45); // was 40
 
         DriveForwardWithEncoder(45, 0.4);
 
@@ -28,11 +33,13 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         TrackLineInwards();
 
-        RedOrBlue(); //Use the camera to detect color and assign it to our color string
+       // FirstRun = RedOrBlue(); //Use the camera to detect color and assign it to our color string
 
         PushButton(AllianceColor);
 
         DriveBackwardWithEncoder(5, 0.3);
+
+        StopAndWait(400);
 
         SquareUpWithWallUsingDistance();
 
@@ -48,10 +55,9 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         StopAndWait(500);
 
-
       //  DriveBackwardWithEncoder(10,0.5);
 
-        turnRight(70); //Turn to face the next line was 75 // was 60 // was 55 // was50 // was 53
+        turnRight(75); //was 70
 
         DriveForwardWithEncoder(45, 0.4); //Drive towards it and get close
        // sleep(5000);
@@ -60,11 +66,19 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         TrackLineInwards();
 
-        RedOrBlue(); //Use the camera to detect color and assign it to our color string
+        SecondRun = RedOrBlue();
 
         PushButton(AllianceColor);
 
         stopCamera();
+
+        RunBitmapPreview();
+
+        telemetry.addLine(FirstRun);
+        telemetry.addLine(SecondRun);
+        telemetry.update();
+
+        sleep(400000);
         
     }
 
