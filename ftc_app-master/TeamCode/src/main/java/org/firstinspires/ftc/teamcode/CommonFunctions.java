@@ -71,7 +71,7 @@ public class CommonFunctions extends RunCamera {
     final int DriveBackDistance = 15; //was 5 // after hitting first beacon how far we should back up
 
     final int ButtonPushDriveDistance = 12; //was 8 // drives forward set amount of distance to ensure we have enough time on pushing beacons
-    final int StopDistanceFromWall = 16; // when tracking the line how far should we be before getting color values of beacon
+    final int StopDistanceFromWall = 10; // when tracking the line how far should we be before getting color values of beacon
 
     final double FAST_POWER = 0.4; // Fast power for robot to go (uses distance sensor) if above slow down distance
     final double SLOW_POWER = 0.2; // Slow power for robot to go (uses distance sensor) if below slow donwn distance
