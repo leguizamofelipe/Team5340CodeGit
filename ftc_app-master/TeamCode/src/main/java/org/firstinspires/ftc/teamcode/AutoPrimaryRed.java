@@ -39,7 +39,7 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         turnLeft(45); // was 40
 
-        DriveForwardWithEncoder(55, 0.4);
+        DriveForwardWithEncoder(61, 0.4);
 
         AlignWithLine(AllianceColor, 0.17);
 
@@ -56,6 +56,9 @@ public class AutoPrimaryRed extends CommonFunctions{
         DriveBackwardWithEncoder(5, 0.3);
 
         StopAndWait(400);
+
+        Launcher1.setPower(LauncherPowerForAuto);
+        Launcher2 nb.setPower(LauncherPowerForAuto);
 
         while(!isSquare) {
             SquareUpWithWallUsingDistance();
@@ -77,7 +80,7 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         turnRight(75); //was 70
 
-        DriveForwardWithEncoder(53, 0.55); //Drive towards it and get close
+        DriveForwardWithEncoder(56, 0.55); //Drive towards it and get close
        // sleep(5000);
 
         AlignWithLine(AllianceColor,.17);

@@ -440,18 +440,19 @@ public class CommonFunctions extends RunCamera {
                 Right.setPower(-0.15);
                 Left.setPower(0.15);
 
-            }else{
+            }else{ //both are equal
                 isSquare = true;
             }
 
-            sleep(100);
+            sleep(75);
             Right.setPower(0);
             Left.setPower(0);
 
         }else{
+            Logger.printMessage("DistanceFromWall", "Both 255 - Moving Forward");
             Left.setPower(-.2);
             Right.setPower(-.2);
-            sleep(50);
+            sleep(100);
             Left.setPower(0);
             Right.setPower(0);
             isSquare = false;

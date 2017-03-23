@@ -40,7 +40,7 @@ public class AutoOneBeaconRed extends CommonFunctions{
 
         turnRight(70);
 
-        DriveForwardWithEncoder(45, 0.3);
+        DriveForwardWithEncoder(48, 0.3);
 
         AlignWithLine(AllianceColor, 0.17);
 
