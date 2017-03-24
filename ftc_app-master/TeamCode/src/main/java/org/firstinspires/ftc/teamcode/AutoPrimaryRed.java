@@ -32,7 +32,6 @@ public class AutoPrimaryRed extends CommonFunctions{
         waitForStart();
 
         while(gyro.isCalibrating()){
-
         }
 
         DriveForwardWithEncoder(20, 0.5); //Forwards is correct again. Get close up to the line
@@ -44,8 +43,6 @@ public class AutoPrimaryRed extends CommonFunctions{
         AlignWithLine(AllianceColor, 0.17);
 
         TrackLineInwards();
-
-       // FirstRun = RedOrBlue(); //Use the camera to detect color and assign it to our color string
 
         try {
             PushButton(AllianceColor);

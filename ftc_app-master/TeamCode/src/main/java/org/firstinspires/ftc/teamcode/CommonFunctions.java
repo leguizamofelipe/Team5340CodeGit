@@ -298,7 +298,7 @@ public class CommonFunctions extends RunCamera {
 
 
         while (opModeIsActive() && Right.isBusy() && Left.isBusy()) {
-//            DriveStraightWithGyro(degreeToStayAt, Speed);
+            DriveStraightWithGyro(degreeToStayAt, Speed);
         }
 
         Left.setPower(0);
@@ -444,7 +444,7 @@ public class CommonFunctions extends RunCamera {
                 isSquare = true;
             }
 
-            sleep(100);
+            sleep(200);
             Right.setPower(0);
             Left.setPower(0);
 
@@ -518,27 +518,6 @@ public class CommonFunctions extends RunCamera {
                 Left.setPower(-Power);
             }
             StopAndWait(200);
-
-//            while (!InnerRightDetectsLight()) {// && !OuterRightDetectsLight()) {
-//
-//                telemetry.addLine("In !InnerRight");
-//                telemetry.update();
-//                if (InnerLeftDetectsLight()) {
-//                    InnerLeftSensorTriggered = true;
-//                }
-//
-//                if (!InnerLeftSensorTriggered) {
-//                    Right.setPower(-FastSnapSpeed);
-//                    Left.setPower(FastSnapSpeed);
-//                    telemetry.addLine("Fast snap turn");
-//                    telemetry.update();
-//                } else if (InnerLeftSensorTriggered){
-//                    Right.setPower(-SlowSnapSpeed);
-//                    Left.setPower(SlowSnapSpeed);
-//                    telemetry.addLine("Slow Snap turn");
-//                    telemetry.update();
-//                }
-//            }
 
             while(!AlignmentGuideDetectsLight()){ //turn left
                 Right.setPower(-Power);
@@ -779,7 +758,6 @@ public class CommonFunctions extends RunCamera {
 
     public void shootBalls() throws InterruptedException{
         TurnOnLaunchers();
-        sleep(500);
         turnOnFlapper();
         TurnOnLift();
 

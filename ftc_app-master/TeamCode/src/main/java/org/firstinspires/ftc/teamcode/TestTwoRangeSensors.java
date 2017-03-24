@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import java.io.FileNotFoundException;
+
 /**
  * Created by RobotAdmin on 3/18/2017.
  */
@@ -9,6 +11,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 public class TestTwoRangeSensors extends CommonFunctions {
     @Override
     public void runOpMode() throws InterruptedException {
+        try {
+            Logger = new Logger(true,"TWORANGESENSORTEST");
+        }catch (FileNotFoundException e) {
+
+            e.printStackTrace();
+        }
+
         AutonomyMotorAndSensorSetup();
 
         waitForStart();
