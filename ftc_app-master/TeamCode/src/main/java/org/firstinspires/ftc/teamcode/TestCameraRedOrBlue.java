@@ -19,11 +19,10 @@ import for_camera_opmodes.RunCamera;
  * Enables control of the robot via the gamepad
  */
 
-@TeleOp(name = "TestCameraRedOrBlue", group = "ZZOpModeCameraPackage")
+@TeleOp(name = "TestCameraRedOrBlue", group = "Tests")
 //@Disabled
 public class TestCameraRedOrBlue extends RunCamera {
     Logger CameraLogger;
-
 
     @Override
     public void runOpMode() {
@@ -44,22 +43,18 @@ public class TestCameraRedOrBlue extends RunCamera {
 
             waitForStart();
 
-            boolean gotimage = false;
-
             colorString = RedOrBlue();
 
-            while(opModeIsActive()){
-                if(!gotimage){
-                    try {
-                        CameraLogger.saveImage(returnBitmap());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    gotimage = true;
-                }
+            try {
+                CameraLogger.saveImage(returnBitmap());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
 
-
+            while(opModeIsActive()){
+                telemetry.addLine(RedOrBlue());
+                telemetry.update();
+            }
         }
     }
 }

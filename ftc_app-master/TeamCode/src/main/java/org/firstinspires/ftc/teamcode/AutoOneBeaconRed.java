@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import java.io.IOException;
 
-@Autonomous(name="One Beacon Red", group="Pushbot")
+@Autonomous(name="AutoOneBeaconRed", group="Autonomous")
 public class AutoOneBeaconRed extends CommonFunctions{
     final String AllianceColor = "RED";
 
@@ -18,7 +18,7 @@ public class AutoOneBeaconRed extends CommonFunctions{
 
         }
 
-//        AlignWithLine(AllianceColor, 0.17); //use 0.17 power
+//        AlignWithLineUsingODS(AllianceColor, 0.17); //use 0.17 power
 
 //        TrackLineInwards();
 
@@ -40,9 +40,9 @@ public class AutoOneBeaconRed extends CommonFunctions{
 
         turnRight(70);
 
-        DriveForwardWithEncoder(45, 0.3);
+        DriveForwardWithEncoder(48, 0.3);
 
-        AlignWithLine(AllianceColor, 0.17);
+        AlignWithLineUsingODS(AllianceColor, 0.17);
 
         TrackLineInwards();
 
@@ -87,7 +87,7 @@ public class AutoOneBeaconRed extends CommonFunctions{
 
         DriveBackwardWithEncoder(DriveBackDistance, 0.5); //Need to find a solid drive back distance
 
-        StopAndWait(500);
+        StopDriveMotorsAndWait(500);
 
       //  DriveBackwardWithEncoder(10,0.5);
 

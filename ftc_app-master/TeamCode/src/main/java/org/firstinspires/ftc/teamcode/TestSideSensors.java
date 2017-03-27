@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -12,9 +13,9 @@ import com.qualcomm.robotcore.hardware.I2cDeviceSynchImpl;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
-@TeleOp(name = "Range Sensors", group = "MRI")
-
-public class SideSensorTest extends OpMode {
+@TeleOp(name = "TestSideSensors", group = "Tests")
+@Disabled
+public class TestSideSensors extends OpMode {
 
     /* Declare OpMode members. */
     private ElapsedTime runtime = new ElapsedTime();
@@ -31,8 +32,8 @@ public class SideSensorTest extends OpMode {
     public void init() {
         telemetry.addData("Status", "Initialized");
 
-        rangeA = hardwareMap.i2cDevice.get("frontDistanceSensor");
-        rangeC = hardwareMap.i2cDevice.get("rearDistanceSensor");
+        rangeA = hardwareMap.i2cDevice.get("leftDistanceSensor");
+        rangeC = hardwareMap.i2cDevice.get("rightDistanceSensor");
 
         rangeAreader = new I2cDeviceSynchImpl(rangeA, I2cAddr.create8bit(0x28), false);
         rangeCreader = new I2cDeviceSynchImpl(rangeC, I2cAddr.create8bit(0x26), false);

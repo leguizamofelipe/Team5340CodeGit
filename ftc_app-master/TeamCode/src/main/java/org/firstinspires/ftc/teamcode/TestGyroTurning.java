@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  * Created by robotadmin on 2/6/2017.
  */
 @Autonomous(name = "GyroTurningTest", group = "Concept")
-
+@Disabled
 public class TestGyroTurning extends LinearOpMode {
     DcMotor Left;
     DcMotor Right;

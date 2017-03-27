@@ -4,17 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import java.io.FileNotFoundException;
 
-/**
- * Created by RobotAdmin on 3/18/2017.
- */
-@Autonomous(name = "Two Range Sensor Test", group = "Sensor")
+@Autonomous(name = "Two Range Sensor Test", group = "Tests")
+
 public class TestTwoRangeSensors extends CommonFunctions {
     @Override
     public void runOpMode() throws InterruptedException {
         try {
-            Logger = new Logger(true,"TWORANGESENSORTEST");
+            Logger = new Logger(true,"Two Range Sensor Test");
         }catch (FileNotFoundException e) {
-
             e.printStackTrace();
         }
 
@@ -22,8 +19,19 @@ public class TestTwoRangeSensors extends CommonFunctions {
 
         waitForStart();
 
-        while(!isSquare && opModeIsActive()){
-            SquareUpWithWallUsingDistance();
+        while(opModeIsActive()){
+            int rightValue = ReadRangeSensorAndFilterValues(5, rightDistanceSensorReader);
+                            //rightDistanceSensorReader.read(0x04, 2)[0] & 0xFF;
+//            sleep(250); //was 250
+            int leftValue = ReadRangeSensorAndFilterValues(5, leftDistanceSensorReader);
+                            //leftDistanceSensorReader.read(0x04,2)[0] & 0xFF;
+
+            Logger.printMessage("Right Distance", String.valueOf(rightValue));
+            Logger.printMessage("Left Distance", String.valueOf(leftValue));
+
+            telemetry.addData("Right Distance", String.valueOf(rightValue));
+            telemetry.addData("Left Distance", String.valueOf(leftValue));
+            telemetry.update();
         }
     }
 }

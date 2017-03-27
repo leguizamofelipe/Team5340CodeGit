@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.hardware.GyroSensor;
 /**
  * Created by robotadmin on 2/6/2017.
  */
-@Autonomous(name = "Gyro", group = "Concept")
+@Autonomous(name = "TestGyro", group = "Tests")
 @Disabled
 
 public class TestGyro extends LinearOpMode{

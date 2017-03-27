@@ -6,29 +6,21 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import java.io.FileNotFoundException;
 
 /**
- * Created by robotadmin on 3/22/2017.
+ * Created by RobotAdmin on 3/24/2017.
  */
-
-
-@Autonomous(name="Logger Test", group="Pushbot")
+@Autonomous(name="Drive Straight", group="Pushbot")
 @Disabled
-
-public class TestLogger extends CommonFunctions {
-    Logger TestLogger;
-
+public class TestStraightDrive extends CommonFunctions {
     @Override
     public void runOpMode() throws InterruptedException {
-        waitForStart();
-
+        AutonomyMotorAndSensorSetup();
+        ///////////LOGGER SETUP/////////////////////////
         try {
-            TestLogger = new Logger(true, "Test");
+            Logger = new Logger(true, "DriveStraight");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
-        TestLogger.printMessage("TestLogger", "Hello World!");
-        TestLogger.printMessage("TestLogger", "Sank is dank");
-
-
+        waitForStart();
+        DriveForwardWithEncoder(100, (0.5));
     }
 }

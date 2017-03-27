@@ -71,7 +71,7 @@ public class TestRangeSensor extends LinearOpMode {
 //            Right.setPower(power);
 //            Left.setPower(power);
 
-//            currentDistance = frontDistanceSensor.getDistance(DistanceUnit.CM);
+//            currentDistance = leftDistanceSensor.getDistance(DistanceUnit.CM);
 //            telemetry.addData("CM AWAY", currentDistance);
 //            telemetry.update();
 //        }//end while

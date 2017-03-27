@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
  */
 
 @Autonomous(name = "Sensor TEST", group = "Sensor")
-
+@Disabled
 public class TestODS extends CommonFunctions{
     @Override
     public void runOpMode() throws InterruptedException {

@@ -11,7 +11,6 @@ public class TestServo extends OpMode { //fully up .5 dump .3 hold 1
 
     @Override
     public void init() {
-
         Pusher = hardwareMap.servo.get("Pusher");
     }
 

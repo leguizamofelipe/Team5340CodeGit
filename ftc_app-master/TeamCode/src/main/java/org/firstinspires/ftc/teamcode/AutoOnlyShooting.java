@@ -1,14 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 
 /**
  * Created by RobotAdmin on 1/18/2017.
  */
 
-@Autonomous(name="Only Shooting", group="Pushbot")
-
+@Autonomous(name="Only Shooting", group="Autonomous")
+@Disabled
 public class AutoOnlyShooting extends CommonFunctions{
 
     @Override

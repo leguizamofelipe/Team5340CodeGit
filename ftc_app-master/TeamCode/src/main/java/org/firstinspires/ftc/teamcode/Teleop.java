@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-@TeleOp(name = "Teleop", group = "Concept")
+@TeleOp(name = "Teleop", group = "Teleop")
 public class Teleop extends CommonFunctions{
     @Override
     public void runOpMode() throws InterruptedException {

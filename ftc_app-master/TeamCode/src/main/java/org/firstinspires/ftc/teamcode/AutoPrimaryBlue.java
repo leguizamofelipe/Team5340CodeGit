@@ -3,7 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="State Blue Auto", group="Pushbot")
+@Autonomous(name="Blue", group="Autonomous")
 public class AutoPrimaryBlue extends LinearOpMode {
     final String ColorDeterminantBlue = "BLUE";
 

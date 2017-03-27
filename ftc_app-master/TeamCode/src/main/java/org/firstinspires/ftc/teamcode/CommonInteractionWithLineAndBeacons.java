@@ -20,7 +20,7 @@ public class CommonInteractionWithLineAndBeacons extends CommonMotorAndSensorSet
         commonVariables.Left.setPower(0);
         commonVariables.Right.setPower(0);
         sleep(TimeToWait); // Stop and think
-    }//end StopAndWait
+    }//end StopDriveMotorsAndWait
 
     boolean InnerRightDetectsLight() {
         if (commonVariables.InnerRightLight.getLightDetected() > commonVariables.ODSLightThreshold) {

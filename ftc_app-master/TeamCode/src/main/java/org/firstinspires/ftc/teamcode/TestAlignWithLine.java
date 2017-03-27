@@ -1,13 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 /**
  * Created by robotadmin on 3/16/2017.
  */
 
-@Autonomous(name = "Align With Line Test", group = "Sensor")
+@Autonomous(name = "TestAlignWithLine", group = "Sensor")
+@Disabled
 
 public class TestAlignWithLine extends CommonFunctions {
     @Override
@@ -29,7 +31,7 @@ public class TestAlignWithLine extends CommonFunctions {
 //            telemetry.update();
 //        }
 
-//        AlignWithLine("RED", 0.17);
+//        AlignWithLineUsingODS("RED", 0.17);
 //
 //        sleep(2000);
 

@@ -25,59 +25,58 @@ public class AutoPrimaryRed extends CommonFunctions{
         }
         ///////////END LOGGER SETUP/////////////////////////
 
-        AutonomyMotorAndSensorSetup();
+        AutonomyMotorAndSensorSetup(); //Setup all motors, sensors, servos
 
-        startCamera();
+        startCamera(); //Open up camera, start preview on phone
 
         waitForStart();
 
         while(gyro.isCalibrating()){
         }
 
-        DriveForwardWithEncoder(20, 0.5); //Forwards is correct again. Get close up to the line
+        DriveForwardWithEncoder(20, 0.5); //Drive towards center structure
 
-        turnLeft(45); // was 40
+        turnLeft(47); // was 45 // Turn and face the line
 
-        DriveForwardWithEncoder(45, 0.4);
+        DriveForwardWithEncoder(63, 0.5); //Drive to get close to the line
 
-        AlignWithLine(AllianceColor, 0.17);
+        AlignWithLineUsingODS(AllianceColor, 0.17); //Intercept line, align with it
 
-        TrackLineInwards();
+        TrackLineInwards(); //Track the line until we are a good distance away from the beacon
 
         try {
-            PushButton(AllianceColor);
+            PushButton(AllianceColor); // Detect the color using the camera, push the beacon button
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        DriveBackwardWithEncoder(5, 0.3);
+        DriveBackwardWithEncoder(5, 0.3); //Drive back in preparation for squaring up with the wall
 
-        StopAndWait(400);
+        TurnOnLaunchers(); //Allow motors time for ramp up
+
+        StopDriveMotorsAndWait(100); //Lose momentum
 
         while(!isSquare) {
-            SquareUpWithWallUsingDistance();
+            SquareUpWithWallUsingDistance(); //Get straight with wall
         }
 
         gyro.resetZAxisIntegrator();
 
         shootBalls();
 
-        sleep(3000); // was 3
+        sleep(3000); //Can adjust time if needed
 
         stopShootingBalls();
 
         DriveBackwardWithEncoder(DriveBackDistance, 0.4); //Need to find a solid drive back distance
 
-        StopAndWait(500);
-
-      //  DriveBackwardWithEncoder(10,0.5);
+        StopDriveMotorsAndWait(200); //Lose momentum
 
         turnRight(75); //was 70
 
-        DriveForwardWithEncoder(45, 0.4); //Drive towards it and get close
-       // sleep(5000);
+        DriveForwardWithEncoder(59, 0.55); //Drive towards the line and get close
 
-        AlignWithLine(AllianceColor,.17);
+        AlignWithLineUsingODS(AllianceColor,.17); //Intercept line, align with it
 
         TrackLineInwards();
 

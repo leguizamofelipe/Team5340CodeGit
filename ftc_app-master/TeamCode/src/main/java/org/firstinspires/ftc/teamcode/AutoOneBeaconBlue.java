@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 import java.io.IOException;
 
-@Autonomous(name="AutoOneBeaconBlue", group="Pushbot")
+@Autonomous(name="AutoOneBeaconBlue", group="Autonomous")
 public class AutoOneBeaconBlue extends CommonFunctions{
     final String ColorDeterminantBlue = "BLUE";
 
@@ -61,7 +61,7 @@ public class AutoOneBeaconBlue extends CommonFunctions{
         /*
         DriveBackwardWithEncoder(DriveBackDistance, 0.5); //Need to find a solid drive back distance
 
-        StopAndWait(500);
+        StopDriveMotorsAndWait(500);
 
 
         turnLeft(55); //Turn to face the next line was 75 //was 60
