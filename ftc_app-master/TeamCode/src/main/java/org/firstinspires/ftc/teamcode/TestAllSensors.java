@@ -22,8 +22,8 @@ public class TestAllSensors extends CommonFunctions{
             telemetry.addData("Right Motor Encoder", Right.getCurrentPosition());
             telemetry.addData("Left Motor Encoder", Left.getCurrentPosition());
             telemetry.addData("Gyro", gyro.getIntegratedZValue());
-            telemetry.addData("Left ODS", InnerLeftLight.getLightDetected());
-            telemetry.addData("Right ODS", InnerRightLight.getLightDetected());
+            telemetry.addData("Left ODS", LeftLight.getLightDetected());
+            telemetry.addData("Right ODS", RightLight.getLightDetected());
             telemetry.addData("COR ODS", CenterOfRotation.getLightDetected());
             telemetry.addData("Alignment guide ODS", AlignmentGuide.getLightDetected());
             telemetry.addData("Right Distance", rightDistanceSensorReader.read(0x04, 2)[0] & 0xFF);

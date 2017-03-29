@@ -28,7 +28,7 @@ public class CommonInteractionWithLineAndBeacons extends CommonMotorAndSensorSet
         } else {
             return false;
         }
-    }//end InnerRightDetectsLight
+    }//end RightDetectsLight
 
     boolean InnerLeftDetectsLight() {
         if (commonVariables.InnerLeftLight.getLightDetected() > commonVariables.ODSLightThreshold) {
@@ -36,7 +36,7 @@ public class CommonInteractionWithLineAndBeacons extends CommonMotorAndSensorSet
         } else {
             return false;
         }
-    }//end InnerLeftDetectsLight
+    }//end LeftDetectsLight
 
 
     ////////////////////////////////////////////////////////////////////////////////////////////

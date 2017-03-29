@@ -25,8 +25,8 @@ public class TestODS extends CommonFunctions{
         Left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         while (opModeIsActive()){
-            telemetry.addData("Right ODS", InnerRightLight.getLightDetected());
-            telemetry.addData("Left ODS", InnerLeftLight.getLightDetected());
+            telemetry.addData("Right ODS", RightLight.getLightDetected());
+            telemetry.addData("Left ODS", LeftLight.getLightDetected());
 
 
             telemetry.update();

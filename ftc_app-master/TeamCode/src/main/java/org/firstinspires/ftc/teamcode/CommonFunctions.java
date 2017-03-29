@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.hardware.I2cDevice;
 import com.qualcomm.robotcore.hardware.I2cAddr;
-import com.qualcomm.robotcore.hardware.I2cDeviceReader;
 import com.qualcomm.robotcore.hardware.I2cDeviceSynch;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -111,8 +110,8 @@ public class CommonFunctions extends RunCamera {
     public DcMotor Launcher2 = null;
     public DcMotor Lift = null;
 
-    OpticalDistanceSensor InnerRightLight;
-    OpticalDistanceSensor InnerLeftLight;
+    OpticalDistanceSensor RightLight;
+    OpticalDistanceSensor LeftLight;
     OpticalDistanceSensor CenterOfRotation;
     OpticalDistanceSensor AlignmentGuide;
 
@@ -201,8 +200,8 @@ public class CommonFunctions extends RunCamera {
         leftDistanceSensorReader.engage();
         rightDistanceSensorReader.engage();
 
-        InnerRightLight = hardwareMap.opticalDistanceSensor.get("InnerRightLight"); // Sensor setup
-        InnerLeftLight = hardwareMap.opticalDistanceSensor.get("InnerLeftLight");
+        RightLight = hardwareMap.opticalDistanceSensor.get("RightLight"); // Sensor setup
+        LeftLight = hardwareMap.opticalDistanceSensor.get("LeftLight");
         CenterOfRotation = hardwareMap.opticalDistanceSensor.get("CenterOfRotation");
         AlignmentGuide = hardwareMap.opticalDistanceSensor.get("AlignmentGuide");
 
@@ -286,7 +285,7 @@ public class CommonFunctions extends RunCamera {
     //--------------------------------------------------------------------------
     public void DriveForwardWithEncoder(double DistanceToTravel, double Speed) throws InterruptedException {
         gyro.resetZAxisIntegrator();
-        int degreeToStayAt = gyro.getIntegratedZValue();
+        int degreeToStayAt = gyro.getIntegratedZValue(); //Get initial heading
 
         //clear any previous encoder targets
         Left.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -294,17 +293,17 @@ public class CommonFunctions extends RunCamera {
 
         int ClicksNeeded = DistanceToClicksConverter(DistanceToTravel);
 
-        Left.setTargetPosition(ClicksNeeded);
+        Left.setTargetPosition(ClicksNeeded); //Tell the encoders how far the motors should travel
         Right.setTargetPosition(ClicksNeeded);
 
-        Left.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        Left.setMode(DcMotor.RunMode.RUN_TO_POSITION); //Set encoders in the proper mode
         Right.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        Left.setPower(Speed);
+        Left.setPower(Speed); //Power up mode
         Right.setPower(Speed);
 
 
         while (opModeIsActive() && Right.isBusy() && Left.isBusy()) {
-            DriveStraightWithGyro(degreeToStayAt, Speed);
+            DriveStraightWithGyro(degreeToStayAt, Speed); //Use the gyro to keep original heading
         }
 
         Left.setPower(0);
@@ -419,8 +418,7 @@ public class CommonFunctions extends RunCamera {
             Right.setPower(Speed);
             Left.setPower(Speed);
         }
-        //Logger.printMessage("Drive Straight With Gyro function gyro value:", toString().valueOf(gyro.getIntegratedZValue()));
-       // Logger.printMessage("Power value: ", toString().valueOf(powerAdjust));
+
     }
 
     //--------------------------------------------------------------------------
@@ -510,21 +508,21 @@ public class CommonFunctions extends RunCamera {
     //--------------------------------------------------------------------------
     //Booleans that return a value depending on the light threshold of the ODS Sensors
     //--------------------------------------------------------------------------
-    boolean InnerRightDetectsLight() {
-        if (InnerRightLight.getLightDetected() > ODSLightThreshold) {
+    boolean RightDetectsLight() {
+        if (RightLight.getLightDetected() > ODSLightThreshold) {
             return true;
         } else {
             return false;
         }
-    }//end InnerRightDetectsLight
+    }//end RightDetectsLight
 
-    boolean InnerLeftDetectsLight() {
-        if (InnerLeftLight.getLightDetected() > ODSLightThreshold) {
+    boolean LeftDetectsLight() {
+        if (LeftLight.getLightDetected() > ODSLightThreshold) {
             return true;
         } else {
             return false;
         }
-    }//end InnerLeftDetectsLight
+    }//end LeftDetectsLight
 
     boolean CenterOfRotationDetectsLight() {
         if (CenterOfRotation.getLightDetected() > ODSLightThreshold) {
@@ -557,13 +555,7 @@ public class CommonFunctions extends RunCamera {
             }
             StopDriveMotorsAndWait(200);
 
-//            if(DrovePastLine(RightInitialPosition, DistancePastLine)){
-//                DriveForwardWithEncoder(3, 0.3);
-//                turnLeft(90);
-//                AlignWithLineUsingODS("BLUE", Power);
-//            }
-
-            while(!AlignmentGuideDetectsLight() && !TurnedPastLine(InitialGyroZVal) && !InnerRightDetectsLight()){ //turn left to align with line
+            while(!AlignmentGuideDetectsLight() && !TurnedPastLine(InitialGyroZVal) && !RightDetectsLight()){ //turn left to align with line
                 Right.setPower(-Power);
                 Left.setPower(Power);
             }
@@ -576,23 +568,11 @@ public class CommonFunctions extends RunCamera {
             }
             StopDriveMotorsAndWait(200);
 
-//            if(DrovePastLine(RightInitialPosition, DistancePastLine)){
-//                DriveForwardWithEncoder(3, 0.3);
-//                turnRight(90);
-//                AlignWithLineUsingODS("BLUE", Power);
-//            }
-
-            while(!AlignmentGuideDetectsLight() && !TurnedPastLine(InitialGyroZVal) && !InnerLeftDetectsLight()){//turn right to align with line
+            while(!AlignmentGuideDetectsLight() && !TurnedPastLine(InitialGyroZVal) && !LeftDetectsLight()){//turn right to align with line
                 Right.setPower(Power);
                 Left.setPower(-Power);
             }
             StopDriveMotorsAndWait(200);
-
-//            if (TurnedPastLine(InitialGyroZVal)){ //if we miss the line, start all over again, try to get in a better position
-//                DriveForwardWithEncoder(5, 0.4);
-//                turnLeft(80);
-//                AlignWithLineUsingODS("RED", Power);
-//            }
         }
     }
 
@@ -601,13 +581,13 @@ public class CommonFunctions extends RunCamera {
     //--------------------------------------------------------------------------
     public void InterceptLine(String Determinant) throws InterruptedException { //Intercept line for the first time
         if (Determinant.equals("RED")) {
-            while (!InnerLeftDetectsLight()){// && !OuterLeftDetectsLight()) { // Initial drive -- needed to catch the white tape
+            while (!LeftDetectsLight()){// && !OuterLeftDetectsLight()) { // Initial drive -- needed to catch the white tape
                 Left.setPower(PowerForInterceptingDrive); // Was -.18
                 Right.setPower(PowerForInterceptingDrive);// Was -.18
                 
             }
         } else if (Determinant.equals("BLUE")) {
-            while (!InnerRightDetectsLight()) {// && !OuterRightDetectsLight()) { // Initial drive -- needed to catch the white tape
+            while (!RightDetectsLight()) {// && !OuterRightDetectsLight()) { // Initial drive -- needed to catch the white tape
                 Left.setPower(PowerForInterceptingDrive);
                 Right.setPower(PowerForInterceptingDrive);
             }
@@ -626,8 +606,8 @@ public class CommonFunctions extends RunCamera {
                 DriveForwardWithEncoder(2, 0.3);
             }
 
-            while (!InnerRightDetectsLight()) {// && !OuterRightDetectsLight()) {
-                if (InnerLeftDetectsLight()) {
+            while (!RightDetectsLight()) {// && !OuterRightDetectsLight()) {
+                if (LeftDetectsLight()) {
                     InnerLeftSensorTriggered = true;
                 }
 
@@ -646,9 +626,9 @@ public class CommonFunctions extends RunCamera {
                 DriveForwardWithEncoder(1, 0.3);
             }
 
-            while (!InnerLeftDetectsLight()) {// && !OuterLeftDetectsLight()) {
+            while (!LeftDetectsLight()) {// && !OuterLeftDetectsLight()) {
 
-                if (InnerRightDetectsLight()){
+                if (RightDetectsLight()){
                     InnerRightSensorTriggered = true;
                 }
                 if (!InnerRightSensorTriggered) {
@@ -673,7 +653,7 @@ public class CommonFunctions extends RunCamera {
 
         boolean LinedUp = false;
 
-        while (!InnerLeftDetectsLight() && !InnerLeftDetectsLight()) { //Both detect dark, so drive forward
+        while (!LeftDetectsLight() && !LeftDetectsLight()) { //Both detect dark, so drive forward
             Right.setPower(-Speed);
             Left.setPower(-Speed);
         }
@@ -684,13 +664,13 @@ public class CommonFunctions extends RunCamera {
         sleep(700);
 
         while(!LinedUp) {
-            if (InnerLeftDetectsLight() && !InnerRightDetectsLight()) { //Right is dark, left is light
+            if (LeftDetectsLight() && !RightDetectsLight()) { //Right is dark, left is light
                 Right.setPower(0);
                 Left.setPower(-Speed);
-            } else if (!InnerLeftDetectsLight() && InnerRightDetectsLight()) { //Right is light, left is dark
+            } else if (!LeftDetectsLight() && RightDetectsLight()) { //Right is light, left is dark
                 Right.setPower(-Speed);
                 Left.setPower(0);
-            } else if (InnerLeftDetectsLight() && InnerRightDetectsLight()) {
+            } else if (LeftDetectsLight() && RightDetectsLight()) {
                 Right.setPower(0);
                 Left.setPower(0);
                 LinedUp = true;
@@ -714,16 +694,16 @@ public class CommonFunctions extends RunCamera {
         Logger.printMessage("TrackLineInwards: Distance for Left Reading", String.valueOf(currentLeftDistance));
 
         while ( (currentLeftDistance > StopDistanceFromWall || currentRightDistance > StopDistanceFromWall) && opModeIsActive()){// || currentRightDistance > StopDistanceFromWall) && opModeIsActive()) {
-            if (!InnerRightDetectsLight() && !InnerLeftDetectsLight() && opModeIsActive()) { // Both detect dark values, drive forward
+            if (!RightDetectsLight() && !LeftDetectsLight() && opModeIsActive()) { // Both detect dark values, drive forward
                 Right.setPower(-ForwardDrivingSpeed);
                 Left.setPower(-ForwardDrivingSpeed);
-            } else if (InnerRightDetectsLight() && !InnerLeftDetectsLight() && opModeIsActive()) { //Right is light, left is dark, turn left
+            } else if (RightDetectsLight() && !LeftDetectsLight() && opModeIsActive()) { //Right is light, left is dark, turn left
                 Right.setPower(TurningTrackSpeed);
                 Left.setPower(-TurningTrackSpeed);
-            } else if (!InnerRightDetectsLight() && InnerLeftDetectsLight() && opModeIsActive()) { //Right is light and left is dark
+            } else if (!RightDetectsLight() && LeftDetectsLight() && opModeIsActive()) { //Right is light and left is dark
                 Right.setPower(-TurningTrackSpeed);
                 Left.setPower(TurningTrackSpeed);
-            } else if (InnerLeftDetectsLight() && InnerRightDetectsLight() && opModeIsActive()) { //Both are light
+            } else if (LeftDetectsLight() && RightDetectsLight() && opModeIsActive()) { //Both are light
                 Right.setPower(-ForwardDrivingSpeed);
                 Left.setPower(-ForwardDrivingSpeed);
             } else {

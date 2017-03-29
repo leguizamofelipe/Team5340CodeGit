@@ -41,8 +41,8 @@ public class CommonMotorAndSensorSetup extends LinearOpMode{
 
         commonVariables.rangeSensor = hardwareMap.get(ModernRoboticsI2cRangeSensor.class,"range");
 
-        commonVariables.InnerRightLight = hardwareMap.opticalDistanceSensor.get("InnerRightLight"); // Sensor setup
-        commonVariables.InnerLeftLight = hardwareMap.opticalDistanceSensor.get("InnerLeftLight");
+        commonVariables.InnerRightLight = hardwareMap.opticalDistanceSensor.get("RightLight"); // Sensor setup
+        commonVariables.InnerLeftLight = hardwareMap.opticalDistanceSensor.get("LeftLight");
 
         ////////////////////////////GYRO///////////////////////////
         commonVariables.Gyro = hardwareMap.gyroSensor.get("Gyro");
