@@ -1,100 +1,96 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-@Autonomous(name="Blue", group="Autonomous")
-public class AutoPrimaryBlue extends LinearOpMode {
-    final String ColorDeterminantBlue = "BLUE";
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
-    CommonShootingMechanismFunctions CSMF = new CommonShootingMechanismFunctions();
-    CommonVariables CV = new CommonVariables();
-    CommonDrivingFunctions CDF = new CommonDrivingFunctions();
-    CommonInteractionWithLineAndBeacons CIWLDAB = new CommonInteractionWithLineAndBeacons();
-    CommonMotorAndSensorSetup CMASS = new CommonMotorAndSensorSetup();
+@Autonomous(name="Blue", group="Pushbot")
+public class AutoPrimaryBlue extends CommonFunctions{
+
+    final String AllianceColor = "BLUE";
+
+    String FirstRun;
+    String SecondRun;
+
+    boolean RunLogger = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
-//        CMASS.AutonomyMotorAndSensorSetup();
-////        CIWLDAB.startCamera();
-//        waitForStart();
-//
-//        while(gyro.isCalibrating()){
-//
-//        }
+        ///////////LOGGER SETUP/////////////////////////
+        try {
+            Logger = new Logger(RunLogger, "BlueAuto");
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        ///////////END LOGGER SETUP/////////////////////////
 
-//        DriveBackwarvd(15, 0.2); //Keep in mind that "backwards" means a drive where the spinner is in front. This will change as we turn around and push beacons.
-//
-//        shootBalls(); //Shoot balls into center goal. Might want to review shooting speed and sleep time with launcher improvements
-//        sleep(4000);
-//        stopShootingBalls();
-//
-//
-//        turnRight(110); //Again, forwards is in the direction of the button pusher, so we turn right. Adjust angle as needed.
-//
-//        DriveForwardWithEncoder(20, 0.5); //Forwards is correct again. Get close up to the line
+        AutonomyMotorAndSensorSetup(); //Setup all motors, sensors, servos
 
-        CDF.DriveForwardWithEncoder(10, 0.4);
+        startCamera(); //Open up camera, start preview on phone
 
-        CDF.turnRight(25);
+        waitForStart();
 
-        CDF.DriveForwardWithEncoder(35, 0.4);
+        while(gyro.isCalibrating()){
+        }
 
-        CIWLDAB.InterceptLine(ColorDeterminantBlue); //Use the ODS to intercept the line.
+        DriveForwardWithEncoder(20, 0.5); //Drive towards center structure
 
-        CIWLDAB.SnapBackToLine(ColorDeterminantBlue); //Intercept the line in between both ODS Sensors
-        CIWLDAB.commonVariables.firstLineDone = true;
+        turnRight(43); // was 45 // Turn and face the line
 
-        ///////////////////////////////////////////////////////STOPPING POINT - Here we decide where to go -- should we use the gyro to drive straight or use the ODS to track? All of this depends on the angle that we have after the snap back.
+        DriveForwardWithEncoder(63, 0.5); //Drive to get close to the line
 
-        CIWLDAB.TrackLineInwards(); //Option 2
+        AlignWithLineUsingODS(AllianceColor, 0.17); //Intercept line, align with it
 
-//        CIWLDAB.RedOrBlue(); //Use the camera to detect color and assign it to our color string
+        TrackLineInwards(); //Track the line until we are a good distance away from the beacon
 
-        CIWLDAB.PushButton(ColorDeterminantBlue);
+        try {
+            PushButton(AllianceColor); // Detect the color using the camera, push the beacon button
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        CSMF.shootBalls();
+        DriveBackwardWithEncoder(5, 0.3); //Drive back in preparation for squaring up with the wall
 
-        sleep(3000);
+        TurnOnLaunchers(); //Allow motors time for ramp up
 
-        CSMF.stopShootingBalls();
+        Blocker.setPosition(blockerUp);
 
-        CDF.DriveBackwardWithEncoder(CV.DriveBackDistance, 0.5); //Need to find a solid drive back distance
+        StopDriveMotorsAndWait(100); //Lose momentum
 
-        CIWLDAB.StopAndWait(500);
+        while(!isSquare) {
+            SquareUpWithWallUsingDistance(); //Get straight with wall
+        }
 
+        gyro.resetZAxisIntegrator();
 
-        CDF.turnLeft(60); //Turn to face the next line was 75 //was 60 // was 55
+        Blocker.setPosition(blockerDown);
 
-        CDF.DriveForwardWithEncoder(41, 0.3); //Drive towards it and get close
-        // sleep(5000);
+        shootBalls();
 
-        CIWLDAB.InterceptLine(ColorDeterminantBlue); //Intercept the second line
+        sleep(3000); //Can adjust time if needed
 
-        CIWLDAB.SnapBackToLine(ColorDeterminantBlue); //Snap back to it
+        stopShootingBalls();
 
-        CIWLDAB.TrackLineInwards(); //Option 2
-//
-//        CIWLDAB.RedOrBlue(); //Use the camera to detect color and assign it to our color string
-//
-        CIWLDAB.PushButton(ColorDeterminantBlue);
+        DriveBackwardWithEncoder(DriveBackDistance, 0.4); //Need to find a solid drive back distance
 
-//        CIWLDAB.stopCamera();
+        StopDriveMotorsAndWait(200); //Lose momentum
 
-//
-//        ///////////////////////////////////////////////////////////////////////SAME DECISION AS ABOVE///////////////////////////////////
-//
-//        /*
-//        DriveForwardWithDistanceSensor(5); //Option 1 ----- Need to look at how the gyro keeps us straight
-//        TrackLineInwards(); //Option 2
-//        */
-//
-//        RedOrBlue(); //Use the camera to detect color and assign it to our color string
-//
-//        PushButton(AllianceColor);
-//
-//        stopCamera();
-//        stop();
+        turnLeft(75); //was 70
+
+        DriveForwardWithEncoder(59, 0.55); //Drive towards the line and get close
+
+        AlignWithLineUsingODS(AllianceColor,.17); //Intercept line, align with it
+
+        TrackLineInwards();
+
+        try {
+            PushButton(AllianceColor);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        stopCamera();
     }
 
 }

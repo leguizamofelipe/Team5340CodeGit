@@ -12,26 +12,26 @@ public class Teleop extends CommonFunctions{
 
         while (opModeIsActive()) {
             ////////////////////////////////////////CONTROL OF VARIABLES - FROM GAMEPAD/////////////////////////////////
-            if (gamepad1.y){          //Slow Motor Toggle Control - Left Button
-                if (!MotorSlowing) {
-                    MotorSlowing = true;
-                } else {
-                    MotorSlowing = false;
-                }
-                sleep(500);
-            }
+//            if (gamepad1.y){          //Slow Motor Toggle Control - Left Button
+//                if (!MotorSlowing) {
+//                    MotorSlowing = true;
+//                } else {
+//                    MotorSlowing = false;
+//                }
+//                sleep(500);
+//            }
+//
+//            if(MotorSlowing){
+//                SlowingFactor = 0.5;
+//            }else{
+//                SlowingFactor = 1;
+//            }
 
-            if(MotorSlowing){
-                SlowingFactor = 0.5;
-            }else{
-                SlowingFactor = 1;
-            }
-
-            if (gamepad2.y){         //Reversing Toggle Control - Right Button
-                if (!Reversing){
-                    Reversing = true;
+            if (gamepad1.y){         //Reversing Toggle Control - Right Button
+                if (Reversing == 1){
+                    Reversing = -1;
                 }else{
-                    Reversing = false;
+                    Reversing = 1;
                 }
                 sleep(500);
             }
@@ -85,8 +85,8 @@ public class Teleop extends CommonFunctions{
 
             ////////////////////////////////////////////////////////////
 
-            double RightGamepadVal = gamepad1.right_stick_y * JoystickScalingFactor * SlowingFactor; //Get Joystick values
-            double LeftGamepadVal = gamepad1.left_stick_y * JoystickScalingFactor * SlowingFactor;
+            double RightGamepadVal = gamepad1.right_stick_y * JoystickScalingFactor * Reversing; //Get Joystick values
+            double LeftGamepadVal = gamepad1.left_stick_y * JoystickScalingFactor * Reversing;
 
                 Left.setPower(LeftGamepadVal);
                 Right.setPower(RightGamepadVal);

@@ -54,6 +54,8 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         TurnOnLaunchers(); //Allow motors time for ramp up
 
+        Blocker.setPosition(blockerUp);
+
         StopDriveMotorsAndWait(100); //Lose momentum
 
         while(!isSquare) {
@@ -61,6 +63,8 @@ public class AutoPrimaryRed extends CommonFunctions{
         }
 
         gyro.resetZAxisIntegrator();
+
+        Blocker.setPosition(blockerDown);
 
         shootBalls();
 
@@ -74,7 +78,7 @@ public class AutoPrimaryRed extends CommonFunctions{
 
         turnRight(75); //was 70
 
-        DriveForwardWithEncoder(59, 0.55); //Drive towards the line and get close
+        DriveForwardWithEncoder(59, 0.7); // was 0.55, Drive towards the line and get close
 
         AlignWithLineUsingODS(AllianceColor,.17); //Intercept line, align with it
 

@@ -44,6 +44,8 @@ public class CommonFunctions extends RunCamera {
 
     final double PushRight = 1.0; // Servo position to push button on rightside of beacon
     final double PushLeft = 0.0; // Servo Position to push left side of beacon
+    final double blockerDown = 0.0;
+    final double blockerUp = 0.5;
     final double NeutralPosition = 0.5; // Servo Position straight down
 
     //////////////////////////////////////DRIVING GLOBALS//////////////////////////////////////
@@ -69,7 +71,7 @@ public class CommonFunctions extends RunCamera {
 
     final double LiftPower = .75; // sets the speed of the lift to bring up balls
 
-    final int DriveBackDistance = 15; //was 5 // after hitting first beacon how far we should back up
+    final int DriveBackDistance = 10; //was 15 // after hitting first beacon how far we should back up
 
     final int ButtonPushDriveDistance = 17; //was 15 // drives forward set amount of distance to ensure we have enough time on pushing beacons
     final int StopDistanceFromWall = 15; // was 10 // when tracking the line how far should we be before getting color values of beacon
@@ -82,7 +84,7 @@ public class CommonFunctions extends RunCamera {
 
     boolean firstLineDone = false;// Are we done with the first beacon or not
 
-    final double LauncherPowerForAuto = 0.27; // sets the power for the shooting mechanism in autonoumous
+    final double LauncherPowerForAuto = 0.3; // sets the power for the shooting mechanism in autonoumous, was .27i
 
     final int DegreesOffTolerance = 4; //Tolerance for gyro to be within to be considered straight.
 
@@ -127,7 +129,7 @@ public class CommonFunctions extends RunCamera {
     I2cDeviceSynch rightDistanceSensorReader;
 
     Servo Pusher;
-
+    Servo Blocker;
 
     ///////////////////////////////////SENSOR VALUES/////////////////////////////////////////
     final double ODSLightThreshold = 0.5; // When ODS is above this value we know that it is capturing the white line
@@ -149,7 +151,7 @@ public class CommonFunctions extends RunCamera {
     /////////////////////////////////////////TELEOP VARIABLES/////////////////////////////////////
 
     boolean MotorSlowing = false; //Variable Setup// Press button to slow down motors by .25
-    boolean Reversing = false; // reverses all motors to drive in backwards orientation
+    int Reversing = -1; // reverses all motors to drive in backwards orientation
     double JoystickScalingFactor = 1;
     double SlowingFactor = 0.25;
     double DriveSlowingFactor = 0.25; // if motor slowing is activated
@@ -179,6 +181,7 @@ public class CommonFunctions extends RunCamera {
         Right.setDirection(DcMotor.Direction.FORWARD);
 
         Pusher = hardwareMap.servo.get("Pusher");
+        Blocker = hardwareMap.servo.get("Blocker");
 
         Flapper = hardwareMap.dcMotor.get("Flapper");
         Launcher1 = hardwareMap.dcMotor.get("Launcher1");
@@ -213,6 +216,7 @@ public class CommonFunctions extends RunCamera {
 
         //////////////////////////////SetServo Posititon  ////////////////////////////
         Pusher.setPosition(NeutralPosition);
+        Blocker.setPosition(blockerDown);
 
     }
 
