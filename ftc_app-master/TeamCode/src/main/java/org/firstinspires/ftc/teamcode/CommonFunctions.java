@@ -157,7 +157,7 @@ public class CommonFunctions extends RunCamera {
     double DriveSlowingFactor = 0.25; // if motor slowing is activated
 
     final double FlapperPower = 1; // sets the spee of the flapper
-    double LauncherPower = 0.3;//Was .22 with blue wheels
+    double LauncherPower = 0.31 ;//Was .22 with blue wheels
 
     boolean FlapperTriggered = false;
 
@@ -691,13 +691,15 @@ public class CommonFunctions extends RunCamera {
     //--------------------------------------------------------------------------
     //We assume the robot is relatively squaresquared up on line, and that the line is captured between the ODS sensors
     public void TrackLineInwards() {
-        int currentLeftDistance = leftDistanceSensorReader.read(0x04, 2)[0] & 0xFF; //ReadRangeSensorAndFilterValues(3, rightDistanceSensorReader);
+//        int currentLeftDistance = leftDistanceSensorReader.read(0x04, 2)[0] & 0xFF; //ReadRangeSensorAndFilterValues(3, rightDistanceSensorReader);
         int currentRightDistance = rightDistanceSensorReader.read(0x04, 2)[0] & 0xFF;
 
-        Logger.printMessage("TrackLineInwards: Distance for Right Reading", String.valueOf(currentRightDistance));
-        Logger.printMessage("TrackLineInwards: Distance for Left Reading", String.valueOf(currentLeftDistance));
+        int Count255 = 0;
 
-        while ( (currentLeftDistance > StopDistanceFromWall || currentRightDistance > StopDistanceFromWall) && opModeIsActive()){// || currentRightDistance > StopDistanceFromWall) && opModeIsActive()) {
+        Logger.printMessage("TrackLineInwards: Distance for Right Reading", String.valueOf(currentRightDistance));
+//        Logger.printMessage("TrackLineInwards: Distance for Left Reading", String.valueOf(currentLeftDistance));
+
+        while ((currentRightDistance > StopDistanceFromWall) && Count255 < 15 && opModeIsActive()) {//currentLeftDistance > StopDistanceFromWall ||  || currentRightDistance > StopDistanceFromWall) && opModeIsActive()) {
             if (!RightDetectsLight() && !LeftDetectsLight() && opModeIsActive()) { // Both detect dark values, drive forward
                 Right.setPower(-ForwardDrivingSpeed);
                 Left.setPower(-ForwardDrivingSpeed);
@@ -710,21 +712,25 @@ public class CommonFunctions extends RunCamera {
             } else if (LeftDetectsLight() && RightDetectsLight() && opModeIsActive()) { //Both are light
                 Right.setPower(-ForwardDrivingSpeed);
                 Left.setPower(-ForwardDrivingSpeed);
-            } else {
 
+                sleep(RunTimeMsec);
+
+                Right.setPower(0);
+                Left.setPower(0);
+
+                if (currentRightDistance == 255){ //Bad Values
+                    Count255++;
+                }
+
+                currentRightDistance = rightDistanceSensorReader.read(0x04, 2)[0] & 0xFF;
+
+                Logger.printMessage("TrackLineInwards: Distance for Right Reading", String.valueOf(currentRightDistance));
             }
 
-            sleep(RunTimeMsec);
+            Logger.printMessage("Adjustments Made", String.valueOf(Count255));
 
-            Right.setPower(0);
-            Left.setPower(0);
-            currentRightDistance = rightDistanceSensorReader.read(0x04, 2)[0] & 0xFF;
-            currentLeftDistance = leftDistanceSensorReader.read(0x04, 2)[0] & 0xFF;
-
-            Logger.printMessage("TrackLineInwards: Distance for Right Reading", String.valueOf(currentRightDistance));
-            Logger.printMessage("TrackLineInwards: Distance for Left Reading", String.valueOf(currentLeftDistance));
-        }
-    }//end TrackLine Inwards Function
+        }//end TrackLine Inwards Function
+    }
 
     //--------------------------------------------------------------------------
     //Use the camera to detect the color, then push the button

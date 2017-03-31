@@ -27,16 +27,16 @@ public class Teleop extends CommonFunctions{
 //                SlowingFactor = 1;
 //            }
 
-            if (gamepad1.y){         //Reversing Toggle Control - Right Button
-                if (Reversing == 1){
+            if (gamepad1.y) {         //Reversing Toggle Control - Right Button
+                if (Reversing == 1) {
                     Reversing = -1;
-                }else{
+                } else {
                     Reversing = 1;
                 }
                 sleep(500);
             }
 
-            if(gamepad2.right_bumper) {                     //Flapper control - toggle using A
+            if (gamepad2.left_bumper) {                     //Flapper control - toggle using A
                 if (Flapper.getPower() == 0) {
                     Flapper.setPower(FlapperPower);
                     FlapperTriggered = true;
@@ -47,8 +47,8 @@ public class Teleop extends CommonFunctions{
                 sleep(500);
             }
 
-            if (gamepad2.left_bumper){
-                if (Launcher1.getPower() == 0){
+            if (gamepad2.right_bumper) {
+                if (Launcher1.getPower() == 0) {
                     Launcher1.setPower(LauncherPower);
                     Launcher2.setPower(LauncherPower);
                 } else {
@@ -58,28 +58,28 @@ public class Teleop extends CommonFunctions{
                 sleep(500);
             }
 
-            if(gamepad2.right_trigger != 0){
+            if (gamepad2.right_trigger != 0) {
                 Lift.setPower(gamepad2.right_trigger);
             } else if (gamepad2.left_trigger != 0) {
                 Lift.setPower(-gamepad2.left_trigger);
                 Flapper.setPower(-gamepad2.left_trigger);
-            }else if (!FlapperTriggered){
+            } else if (!FlapperTriggered) {
                 Flapper.setPower(0);
                 Lift.setPower(0);
-            }else{
+            } else {
                 Lift.setPower(0);
             }
 
-            if(gamepad2.x){
+            if (gamepad2.x) {
                 Pusher.setPosition(PushLeft);
                 sleep(500);
             } else if (gamepad2.b) {
                 Pusher.setPosition(PushRight);
                 sleep(500);
-            } else if (gamepad2.a){
+            } else if (gamepad2.a) {
                 Pusher.setPosition(NeutralPosition);
                 sleep(500);
-            }else{
+            } else {
 
             }
 
@@ -88,10 +88,16 @@ public class Teleop extends CommonFunctions{
             double RightGamepadVal = gamepad1.right_stick_y * JoystickScalingFactor * Reversing; //Get Joystick values
             double LeftGamepadVal = gamepad1.left_stick_y * JoystickScalingFactor * Reversing;
 
+            if(Reversing == -1) {
+                Left.setPower(RightGamepadVal);
+                Right.setPower(LeftGamepadVal);
+            }else{
                 Left.setPower(LeftGamepadVal);
                 Right.setPower(RightGamepadVal);
+            }
         }
     }
+
 
     public boolean WithinRange (double Target, double CurrentPos){
         if((Math.abs(Target - CurrentPos) < 0.05)){
